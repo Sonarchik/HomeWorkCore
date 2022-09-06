@@ -8,6 +8,10 @@ public class Main {
 
         PrintName printName = new PrintName();
         printName.print(figureOne);
+        printName.print(figureTwo);
+        printName.print(figureThree);
+        printName.print(figureFour);
+        printName.print(figureFive);
 
     }
 }
