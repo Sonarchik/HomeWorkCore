@@ -7,7 +7,7 @@ public class Main {
         Shape figureFive = new Triangle("blue");
 
         PrintName printName = new PrintName();
-        printName.print(figureThree);
+        printName.print(figureOne);
 
     }
 }
