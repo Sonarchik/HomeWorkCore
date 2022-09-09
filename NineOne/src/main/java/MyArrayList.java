@@ -2,10 +2,7 @@ import java.util.Arrays;
 
 public class MyArrayList<T> {
     private T[] list;
-    private int size, index;
-    private T item;
-
-    private int capacity;
+    private int size;
     private final int DEFAULT_CAPACITY = 10;
 
     public MyArrayList() {
@@ -13,7 +10,6 @@ public class MyArrayList<T> {
     }
 
     public MyArrayList(int capacity) {
-        this.capacity = capacity;
         if (capacity < 1) {
             throw new IllegalArgumentException("Capacity <= 0");
         } else {
@@ -30,7 +26,7 @@ public class MyArrayList<T> {
 
     public void add(T item) {
         if (list.length == size) {
-            list = Arrays.copyOf(list, list.length * 2);
+            list = (T[]) arrayGrowth();
 
         }
         list[size++] = item;
@@ -44,7 +40,7 @@ public class MyArrayList<T> {
         } else {
 
             if (list.length == size) {
-                list = Arrays.copyOf(list, list.length * 2);
+                list = (T[]) arrayGrowth();
 
             }
             for (int i = size; i > index; i--) {
@@ -67,7 +63,7 @@ public class MyArrayList<T> {
             list[size] = null;
             size--;
             if (list.length > 2 * size) {
-                list = Arrays.copyOf(list, list.length / 2);
+                list = (T[]) arrayReduction();
             }
 
         }
@@ -90,6 +86,15 @@ public class MyArrayList<T> {
         } else {
             return list[index];
         }
+    }
+    public T arrayGrowth(){
+        list = Arrays.copyOf(list, list.length * 2);
+        return (T) list;
+    }
+
+    public T arrayReduction(){
+        list = Arrays.copyOf(list, list.length / 2);
+        return (T) list;
     }
 
 }
