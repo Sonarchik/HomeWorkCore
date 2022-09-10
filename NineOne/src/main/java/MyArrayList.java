@@ -56,7 +56,7 @@ public class MyArrayList<T> {
             throw new IllegalArgumentException("index < 0");
         } else if (index > list.length) {
             throw new IllegalArgumentException("index > length");
-        }else {
+        } else {
             for (int i = index; i < size; i++) {
                 list[i] = list[i + 1];
             }
@@ -87,12 +87,13 @@ public class MyArrayList<T> {
             return list[index];
         }
     }
-    public T arrayGrowth(){
+
+    public T arrayGrowth() {
         list = Arrays.copyOf(list, list.length * 2);
         return (T) list;
     }
 
-    public T arrayReduction(){
+    public T arrayReduction() {
         list = Arrays.copyOf(list, list.length / 2);
         return (T) list;
     }
