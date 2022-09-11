@@ -2,6 +2,7 @@ import java.util.Iterator;
 
 public class Main {
     public static void main(String[] args) {
+//        ***************** Test MyArrayList**********************************
         MyArrayList<String> list = new MyArrayList<>();
         list.add("1");
         list.add("2");
@@ -31,6 +32,9 @@ public class Main {
         list.display();
         System.out.println("Size = " + list.size());
         System.out.println("Value for index =  " + list.get(9));
+
+
+//        ***************** Test MyLinkedList******************************
 
         MyLinkedList<String> linkedList = new MyLinkedList<>();
         linkedList.add("next0");
@@ -66,5 +70,74 @@ public class Main {
         }
         System.out.println("");
         System.out.println("linkedList.size() = " + linkedList.size());
+
+//        **************************** Test MyQueue ***********
+
+        MyQueue <String> queue = new MyQueue<>();
+        queue.add("que0");
+        queue.add("que1");
+        queue.add("que2");
+        queue.add("que3");
+        queue.add("que4");
+        queue.add("que5");
+        queue.add("que6");
+        queue.add("que7");
+        for (String s : queue) {
+            System.out.print(s + " ");
+        }
+
+        System.out.println("");
+        System.out.println("queue.peek() = " + queue.peek());
+        for (String s : queue) {
+            System.out.print(s + " ");
+        }
+        System.out.println("");
+        System.out.println("queue.remove() = " + queue.remove());
+        queue.remove();
+        System.out.println("queue.poll() = " + queue.poll());
+        for (String s : queue) {
+            System.out.print(s + " ");
+        }
+        System.out.println("");
+        queue.clear();
+
+        for (String s : queue) {
+            System.out.print(s + " ");
+        }
+        System.out.println("");
+        System.out.println("queue.size() = " + queue.size());
+
+//        ******************* TestMyStack*****************8
+        MyStack <String> stack = new MyStack<>();
+        stack.push("stack0");
+        stack.push("stack1");
+        stack.push("stack2");
+        stack.push("stack3");
+        stack.push("stack4");
+        stack.push("stack5");
+        for (String s : stack) {
+            System.out.print(s + " ");
+        }
+        System.out.println("");
+        System.out.println("stack.size() = " + stack.size());
+        stack.remove();
+        stack.remove();
+        for (String s : stack) {
+            System.out.print(s + " ");
+        }
+        System.out.println("");
+        System.out.println("stack.size() = " + stack.size());
+        System.out.println("stack.peek() = " + stack.peek());
+        System.out.println("stack.pop() = " + stack.pop());
+        for (String s : stack) {
+            System.out.print(s + " ");
+        }
+        System.out.println("");
+        System.out.println("stack.pop() = " + stack.pop());
+        for (String s : stack) {
+            System.out.print(s + " ");
+        }
+        System.out.println("");
+
     }
 }
