@@ -1,3 +1,4 @@
+import java.util.HashMap;
 import java.util.Iterator;
 
 public class Main {
@@ -138,6 +139,41 @@ public class Main {
             System.out.print(s + " ");
         }
         System.out.println("");
+//        *******************MyHashMap*********************
+
+        MyHashMap <String,String> hashMap = new MyHashMap<>();
+        hashMap.put("1","one");
+        hashMap.put("2","two");
+        hashMap.put("3","three");
+        hashMap.clear();
+        hashMap.put("1","one");
+        hashMap.put("4","4");
+        hashMap.put("5","5");
+        hashMap.put("6","6");
+        hashMap.put("7","7");
+        System.out.println("hashMap.size() = " + hashMap.size());
+        hashMap.put("8","8");
+        hashMap.put("9","9");
+        hashMap.put("10","10");
+        hashMap.put("11","11");
+        hashMap.put("12","12");
+        hashMap.put("13","13");
+        hashMap.put("14","14");
+        hashMap.put("15","15");
+        System.out.println(hashMap);
+        hashMap.put("16","16");
+        System.out.println(hashMap);
+        hashMap.put("17","17");
+        System.out.println(hashMap);
+        hashMap.remove("1");
+        hashMap.put("read","11");
+        hashMap.remove("read");
+        hashMap.put("4","Hello");
+        hashMap.put("3","Hello Java");
+        hashMap.put("2","Hello +++");
+        System.out.println(hashMap);
+        System.out.println("hashMap.size() = " + hashMap.size());
+        System.out.println(hashMap.get("17"));
 
     }
 }
