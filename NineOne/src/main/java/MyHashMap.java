@@ -1,11 +1,9 @@
 import java.util.Objects;
-
 public class MyHashMap<K, V> {
     private Node<K, V>[] table;
     private int size = 0;
     private static final float RESIZE_THRESHOLD = 1.0f;
     private static final int DEFAULT_CAPACITY = 16;
-    private int countLength = 0;
 
     public MyHashMap() {
         table = new Node[DEFAULT_CAPACITY];
@@ -14,18 +12,16 @@ public class MyHashMap<K, V> {
 
 
     public void put(K k, V v) {
-        int hash = k.hashCode();
-        int index = hash % table.length;
-
+        int index = calculateIndex(k,table.length);
 
         if (table[index] == null) {
-            table[index] = new Node<>(hash, k, v, null);
+            table[index] = new Node<>(k, v, null);
             size++;
         } else {
             if (table[index].key.equals(k)) {
                 table[index].value = v;
             } else {
-                table[index].next = new Node<>(hash, k, v, null);
+                table[index].next = new Node<>(k, v, null);
                 size++;
             }
 
@@ -54,22 +50,31 @@ public class MyHashMap<K, V> {
         }
 
     }
+    public static int calculateIndex(Object key, int tableCapacity){
+        int hash = key.hashCode();
+        return hash & tableCapacity-1;
+    }
 
-    public void remove(K k) {
+    public V remove(K k) {
 
-        int hash = k.hashCode();
-        int index = hash % table.length;
-        if (table[index] != null && table[index].key.equals(k)) {
-            table[index] = table[index].next;
+        int index = calculateIndex(k,table.length);
+            var current = table[index];
+        if (current != null && current.key.equals(k)) {
+            var value = current.value;
+            table[index] = current.next;
             size--;
-        } else if (table[index].next != null && table[index].next.key.equals(k)) {
-            table[index].next = table[index].next.next;
-            size--;
-        }else if (table[index].next.next != null && table[index].next.next.key.equals(k)) {
-            table[index].next.next = table[index].next.next.next;
-            size--;
+            return value;
         }
-
+        while (current.next != null) {
+            if (current.next.key.equals(k)) {
+                var value = current.next.value;
+                current.next = current.next.next;
+                size--;
+                return value;
+            }
+            current = current.next;
+        }
+        return null;
     }
 
     public int size() {
@@ -102,7 +107,6 @@ public class MyHashMap<K, V> {
         String result = "MyHashMap{ ";
         for (Node<K, V> node : table) {
             if (node != null) {
-                countLength++;
                 result += node.key + " = " + node.value + ", ";
 
                 while (node.next != null) {
@@ -117,14 +121,9 @@ public class MyHashMap<K, V> {
     }
 
     private static class Node<K, V> {
-        private final int hash;
         private final K key;
         private V value;
         private Node<K, V> next;
-
-        public int getHash() {
-            return hash;
-        }
 
         public K getKey() {
             return key;
@@ -134,20 +133,11 @@ public class MyHashMap<K, V> {
             return value;
         }
 
-        public void setValue(V value) {
-            this.value = value;
-        }
-
         public Node<K, V> getNext() {
             return next;
         }
 
-        public void setNext(Node<K, V> next) {
-            this.next = next;
-        }
-
-        private Node(int hash, K key, V value, Node<K, V> next) {
-            this.hash = hash;
+        private Node(K key, V value, Node<K, V> next) {
             this.key = key;
             this.value = value;
             this.next = next;
@@ -159,8 +149,7 @@ public class MyHashMap<K, V> {
             if (this == o) return true;
             if (!(o instanceof Node)) return false;
             Node<?, ?> node = (Node<?, ?>) o;
-            return getHash() == node.getHash() &&
-                    getKey().equals(node.getKey()) &&
+            return  getKey().equals(node.getKey()) &&
                     getValue().equals(node.getValue()) &&
                     Objects.equals(getNext(), node.getNext());
         }
