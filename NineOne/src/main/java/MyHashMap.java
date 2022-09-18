@@ -1,4 +1,5 @@
 import java.util.Objects;
+
 public class MyHashMap<K, V> {
     private Node<K, V>[] table;
     private int size = 0;
@@ -7,12 +8,11 @@ public class MyHashMap<K, V> {
 
     public MyHashMap() {
         table = new Node[DEFAULT_CAPACITY];
-
     }
 
 
     public void put(K k, V v) {
-        int index = calculateIndex(k,table.length);
+        int index = calculateIndex(k, table.length);
 
         if (table[index] == null) {
             table[index] = new Node<>(k, v, null);
@@ -24,14 +24,11 @@ public class MyHashMap<K, V> {
                 table[index].next = new Node<>(k, v, null);
                 size++;
             }
-
         }
 
         if (size > table.length * RESIZE_THRESHOLD) {
             resize();
-
         }
-
     }
 
     private void resize() {
@@ -46,19 +43,18 @@ public class MyHashMap<K, V> {
                     node = node.next;
                 }
             }
-
         }
-
     }
-    public static int calculateIndex(Object key, int tableCapacity){
+
+    public static int calculateIndex(Object key, int tableCapacity) {
         int hash = key.hashCode();
-        return hash & tableCapacity-1;
+        return hash & tableCapacity - 1;
     }
 
     public V remove(K k) {
 
-        int index = calculateIndex(k,table.length);
-            var current = table[index];
+        int index = calculateIndex(k, table.length);
+        var current = table[index];
         if (current != null && current.key.equals(k)) {
             var value = current.value;
             table[index] = current.next;
@@ -97,7 +93,6 @@ public class MyHashMap<K, V> {
                     node = node.next;
                 }
             }
-
         }
         return result;
     }
@@ -114,9 +109,7 @@ public class MyHashMap<K, V> {
                     node = node.next;
                 }
             }
-
         }
-//
         return result + " size=" + size + " table.lenght " + table.length + "}";
     }
 
@@ -141,7 +134,6 @@ public class MyHashMap<K, V> {
             this.key = key;
             this.value = value;
             this.next = next;
-
         }
 
         @Override
@@ -149,7 +141,7 @@ public class MyHashMap<K, V> {
             if (this == o) return true;
             if (!(o instanceof Node)) return false;
             Node<?, ?> node = (Node<?, ?>) o;
-            return  getKey().equals(node.getKey()) &&
+            return getKey().equals(node.getKey()) &&
                     getValue().equals(node.getValue()) &&
                     Objects.equals(getNext(), node.getNext());
         }

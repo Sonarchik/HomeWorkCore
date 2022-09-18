@@ -18,8 +18,8 @@ public class MyArrayList<T> {
     }
 
     public void display() {
-        for (T t : list) {
-            System.out.print(t + " ");
+        for (T current : list) {
+            System.out.print(current + " ");
         }
         System.out.println("");
     }
@@ -65,7 +65,6 @@ public class MyArrayList<T> {
             if (list.length > 2 * size) {
                 list = (T[]) arrayReduction();
             }
-
         }
     }
 
@@ -88,14 +87,13 @@ public class MyArrayList<T> {
         }
     }
 
-    public T arrayGrowth() {
+    private T arrayGrowth() {
         list = Arrays.copyOf(list, list.length * 2);
         return (T) list;
     }
 
-    public T arrayReduction() {
+    private T arrayReduction() {
         list = Arrays.copyOf(list, list.length / 2);
         return (T) list;
     }
-
 }

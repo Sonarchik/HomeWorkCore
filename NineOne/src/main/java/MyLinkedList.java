@@ -6,7 +6,6 @@ public class MyLinkedList<E> implements Iterable<E> {
     private int size = 0;
 
     public MyLinkedList() {
-
         firstNode = new Node<E>(null, null, lastNode);
         lastNode = new Node<E>(null, firstNode, null);
         firstNode = new Node<E>(null, null, lastNode);
@@ -113,8 +112,5 @@ public class MyLinkedList<E> implements Iterable<E> {
             this.next = next;
             this.prev = prev;
         }
-
-
     }
-
 }

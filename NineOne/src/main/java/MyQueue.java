@@ -30,19 +30,17 @@ public class MyQueue<E> implements Iterable<E> {
             size--;
             return ref.item;
         }
-
     }
 
     public E poll() {
         if (size == 0) {
             return null;
         } else {
-            Node<E> ref = firstNode.next;
+            Node<E> ref = firstNode;
             firstNode = ref;
             size--;
             return ref.item;
         }
-
     }
 
     public E peek() {
@@ -113,14 +111,6 @@ public class MyQueue<E> implements Iterable<E> {
 
         public void setNext(Node<E> next) {
             this.next = next;
-        }
-
-        public Node<E> getPrev() {
-            return prev;
-        }
-
-        public void setPrev(Node<E> prev) {
-            this.prev = prev;
         }
 
         private Node<E> prev;
