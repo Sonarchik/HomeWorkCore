@@ -13,7 +13,7 @@ public class ReadWords {
         try (BufferedReader reader = new BufferedReader(new FileReader(readFile))) {
             String line = reader.readLine();
             while (line != null) {
-                words = line.trim().split(" ");
+                words = line.trim().split("\\s+");
                 for (String word : words) {
                     text.add(word);
                 }
