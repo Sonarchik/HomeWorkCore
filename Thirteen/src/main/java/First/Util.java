@@ -1,5 +1,7 @@
 package First;
 
+import com.google.gson.*;
+
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -7,112 +9,53 @@ import java.nio.file.Files;
 
 public class Util {
 
-     public static void sendPOST(String CREATE_USER_URL) throws IOException {
-         URL url = new URL(CREATE_USER_URL);
-         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-         connection.setRequestMethod("POST");
-         connection.setRequestProperty("Content-Type", "application/json");
-         connection.setDoOutput(true);
-         OutputStreamWriter osw = new OutputStreamWriter(connection.getOutputStream()) ;
-         osw.write(Files.readString(new File("user.json").toPath()));
-         osw.flush();
-         osw.close();
-
-         int responseCode = connection.getResponseCode();
-         System.out.println("POST response code: " + responseCode);
-         if (responseCode == HttpURLConnection.HTTP_CREATED) {
-             BufferedReader in =
-                     new BufferedReader(
-                             new InputStreamReader(connection.getInputStream()));
-             StringBuilder response = new StringBuilder();
-             String inputLine;
-             while ((inputLine = in.readLine()) != null) {
-                 response.append(inputLine);
-             }
-             in.close();
-             System.out.println(response);
-         } else {
-             System.out.println("POST request not worked");
-         }
-     }
-
-    public static void sendPUT(String CREATE_USER_URL) throws IOException {
-        URL url = new URL(CREATE_USER_URL);
+    public static String sendRequest(String urlRequest, String request) throws IOException {
+        URL url = new URL(urlRequest);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("PUT");
+        connection.setRequestMethod(request);
         connection.setRequestProperty("Content-Type", "application/json");
         connection.setDoOutput(true);
-        OutputStreamWriter osw = new OutputStreamWriter(connection.getOutputStream());
-        osw.write(Files.readString(new File("userUpdate.json").toPath()));
-        osw.flush();
-        osw.close();
+        if (request.equals("PUT") || request.equals("POST")) {
+            OutputStreamWriter osw = new OutputStreamWriter(connection.getOutputStream());
+            if (request.equals("PUT")) {
+                osw.write(Files.readString(new File("userUpdate.json").toPath()));
+            } else {
+                osw.write(Files.readString(new File("user.json").toPath()));
+            }
+            osw.flush();
+            osw.close();
+        }
 
         int responseCode = connection.getResponseCode();
-        System.out.println("PUT response code: " + responseCode);
-        if (responseCode == HttpURLConnection.HTTP_OK) {
+        System.out.println(request + " response code: " + responseCode);
+        StringBuilder response = new StringBuilder();
+        if (responseCode == HttpURLConnection.HTTP_OK || responseCode == HttpURLConnection.HTTP_CREATED) {
             BufferedReader in =
                     new BufferedReader(
                             new InputStreamReader(connection.getInputStream()));
-            StringBuilder response = new StringBuilder();
             String inputLine;
             while ((inputLine = in.readLine()) != null) {
                 response.append(inputLine);
             }
             in.close();
-            System.out.println(response);
         } else {
-            System.out.println("PUT request not worked");
+            System.out.println(request + " request not worked");
         }
+        return response.toString();
     }
 
-    public static void sendDELETE(String CREATE_USER_URL) throws IOException {
-        URL url = new URL(CREATE_USER_URL);
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("DELETE");
-        connection.setRequestProperty("Content-Type", "application/json");
-        connection.setDoOutput(true);
-
-        int responseCode = connection.getResponseCode();
-        System.out.println("DELETE response code: " + responseCode);
-        if (responseCode == HttpURLConnection.HTTP_OK) {
-            BufferedReader in =
-                    new BufferedReader(
-                            new InputStreamReader(connection.getInputStream()));
-            StringBuilder response = new StringBuilder();
-            String inputLine;
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
+    public static void sendTodos(String urlRequest, String request) throws IOException {
+        String response = sendRequest(urlRequest, request);
+        Gson gson = new Gson();
+        User[] users = gson.fromJson(response, User[].class);
+        for (User user : users) {
+            if (!user.isCompleted()) {
+                System.out.println(user);
             }
-            in.close();
-            System.out.println(response);
-        } else {
-            System.out.println("DELETE request not worked");
         }
     }
+    public static void sendPosts(){
+        final String GET_POSTS = "https://jsonplaceholder.typicode.com/users/1/posts";
 
-    public static void sendGET(String CREATE_USER_URL) throws IOException {
-        URL url = new URL(CREATE_USER_URL);
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("GET");
-        connection.setRequestProperty("Content-Type", "application/json");
-        connection.setDoOutput(true);
-
-
-        int responseCode = connection.getResponseCode();
-        System.out.println("GET response code: " + responseCode);
-        if (responseCode == HttpURLConnection.HTTP_OK) {
-            BufferedReader in =
-                    new BufferedReader(
-                            new InputStreamReader(connection.getInputStream()));
-            StringBuilder response = new StringBuilder();
-            String inputLine;
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
-            }
-            in.close();
-            System.out.println(response);
-        } else {
-            System.out.println("GET request not worked");
-        }
     }
 }
