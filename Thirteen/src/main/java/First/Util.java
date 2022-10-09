@@ -54,8 +54,26 @@ public class Util {
             }
         }
     }
-    public static void sendPosts(){
-        final String GET_POSTS = "https://jsonplaceholder.typicode.com/users/1/posts";
 
+    public static void sendPosts() throws IOException {
+        final String GET_POSTS = "https://jsonplaceholder.typicode.com/users/1/posts";
+        final String GET_COMMENT;
+        String response = sendRequest(GET_POSTS, "GET");
+        Gson gson = new Gson();
+        User[] users = gson.fromJson(response, User[].class);
+        int postId = 0;
+        int userId = 0;
+        for (User user : users) {
+            if (user.getId() > postId) {
+                postId = user.getId();
+                userId = user.getUserId();
+            }
+        }
+        GET_COMMENT = "https://jsonplaceholder.typicode.com/posts/" + postId + "/comments";
+        String comments = sendRequest(GET_COMMENT, "GET");
+        String path = "user-" + userId + "-post-" + postId + "-comments.json";
+        Gson gsonPosts = new Gson();
+        Post[] posts = gsonPosts.fromJson(comments, Post[].class);
+        WriterJson.jsonWriter(path, posts);
     }
 }

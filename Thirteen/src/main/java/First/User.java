@@ -12,6 +12,7 @@ public class User {
         this.title = title;
         this.completed = completed;
     }
+
     @Override
     public String toString() {
         return "[" + " { " +
@@ -21,7 +22,16 @@ public class User {
                 ", \"completed\" :" + completed +
                 "} " + "]";
     }
-       public boolean isCompleted() {
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public boolean isCompleted() {
         return completed;
     }
 }
