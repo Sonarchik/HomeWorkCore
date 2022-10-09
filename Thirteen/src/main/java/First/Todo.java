@@ -1,12 +1,12 @@
 package First;
 
-public class User {
+public class Todo {
     private final int userId;
     private final int id;
     private final String title;
     private final boolean completed;
 
-    public User(int userId, int id, String title, boolean completed) {
+    public Todo(int userId, int id, String title, boolean completed) {
         this.userId = userId;
         this.id = id;
         this.title = title;

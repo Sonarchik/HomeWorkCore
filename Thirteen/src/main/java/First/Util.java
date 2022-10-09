@@ -47,10 +47,10 @@ public class Util {
     public static void sendTodos(String urlRequest, String request) throws IOException {
         String response = sendRequest(urlRequest, request);
         Gson gson = new Gson();
-        User[] users = gson.fromJson(response, User[].class);
-        for (User user : users) {
-            if (!user.isCompleted()) {
-                System.out.println(user);
+        Todo[] todos = gson.fromJson(response, Todo[].class);
+        for (Todo todo : todos) {
+            if (!todo.isCompleted()) {
+                System.out.println(todo);
             }
         }
     }
@@ -60,13 +60,13 @@ public class Util {
         final String GET_COMMENT;
         String response = sendRequest(GET_POSTS, "GET");
         Gson gson = new Gson();
-        User[] users = gson.fromJson(response, User[].class);
+        Todo[] todos = gson.fromJson(response, Todo[].class);
         int postId = 0;
         int userId = 0;
-        for (User user : users) {
-            if (user.getId() > postId) {
-                postId = user.getId();
-                userId = user.getUserId();
+        for (Todo todo : todos) {
+            if (todo.getId() > postId) {
+                postId = todo.getId();
+                userId = todo.getUserId();
             }
         }
         GET_COMMENT = "https://jsonplaceholder.typicode.com/posts/" + postId + "/comments";
